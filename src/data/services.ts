@@ -1,6 +1,7 @@
 import { Headphones, Monitor, Settings, Shield, CheckCircle, Users } from "lucide-react";
+import type { IconCardItem } from "@/types/content";
 
-export const services = [
+export const services: IconCardItem[] = [
   {
     icon: Headphones,
     title: "Suporte Técnico Remoto e Presencial",

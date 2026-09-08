@@ -1,20 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-
-interface CarouselItem {
-  icon: any;
-  title: string;
-  description: string;
-}
+import { useEffect, useRef, useState } from "react";
+import type { IconCardItem } from "@/types/content";
 
 interface MobileCarouselProps {
-  items: CarouselItem[];
+  items: IconCardItem[];
   direction: "ltr" | "rtl";
-  variant: "services" | "differentials";
+  theme: "light" | "dark";
 }
 
-const MobileCarousel = ({ items, direction, variant }: MobileCarouselProps) => {
+const AUTOPLAY_INTERVAL_MS = 3500;
+
+const MobileCarousel = ({ items, direction, theme }: MobileCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const isLight = theme === "light";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,7 +24,7 @@ const MobileCarousel = ({ items, direction, variant }: MobileCarouselProps) => {
         }
         return next;
       });
-    }, 3500);
+    }, AUTOPLAY_INTERVAL_MS);
     return () => clearInterval(interval);
   }, [items.length, direction]);
 
@@ -42,8 +40,6 @@ const MobileCarousel = ({ items, direction, variant }: MobileCarouselProps) => {
     if (child) scrollRef.current.scrollTo({ left: child.offsetLeft - 16, behavior: "smooth" });
   };
 
-  const isServices = variant === "services";
-
   return (
     <div className="md:hidden">
       <div
@@ -56,30 +52,34 @@ const MobileCarousel = ({ items, direction, variant }: MobileCarouselProps) => {
           <div
             key={item.title}
             className={`snap-center shrink-0 w-[74vw] p-4 rounded-xl border transition-all duration-300 ${
-              isServices
+              isLight
                 ? "bg-card border-border"
                 : "bg-primary-foreground/10 backdrop-blur-sm border-primary-foreground/20"
             }`}
           >
             <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${
-              isServices ? "bg-primary/10" : "bg-primary-foreground/20"
+              isLight ? "bg-primary/10" : "bg-primary-foreground/20"
             }`}>
-              <item.icon className={`h-6 w-6 ${isServices ? "text-primary" : "text-primary-foreground"}`} />
+              <item.icon className={`h-6 w-6 ${isLight ? "text-primary" : "text-primary-foreground"}`} />
             </div>
-            <h3 className={`font-display font-semibold mb-2 ${isServices ? "text-foreground" : ""}`}>{item.title}</h3>
-            <p className={`text-sm ${isServices ? "text-muted-foreground" : "opacity-80"}`}>{item.description}</p>
+            <h3 className={`font-display font-semibold mb-2 ${isLight ? "text-foreground" : ""}`}>{item.title}</h3>
+            <p className={`text-sm ${isLight ? "text-muted-foreground" : "opacity-80"}`}>{item.description}</p>
           </div>
         ))}
       </div>
-      <div className="flex justify-center gap-2 mt-4">
-        {items.map((_, i) => (
+      <div className="flex justify-center gap-2 mt-4" role="tablist" aria-label="Navegação do carrossel">
+        {items.map((item, i) => (
           <button
-            key={i}
+            key={item.title}
+            type="button"
+            role="tab"
+            aria-selected={i === activeIndex}
+            aria-label={`Ir para ${item.title}`}
             onClick={() => { setActiveIndex(i); scrollToIndex(i); }}
             className={`h-2 rounded-full transition-all duration-300 ${
               i === activeIndex
-                ? isServices ? "bg-primary w-6" : "bg-primary-foreground w-6"
-                : isServices ? "bg-primary/30 w-2" : "bg-primary-foreground/30 w-2"
+                ? isLight ? "bg-primary w-6" : "bg-primary-foreground w-6"
+                : isLight ? "bg-primary/30 w-2" : "bg-primary-foreground/30 w-2"
             }`}
           />
         ))}

@@ -1,15 +1,11 @@
-import LandingPage from "./pages/LandingPage";
-import { SpeedInsights } from "@vercel/speed-insights/react"
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import LandingPage from "@/pages/LandingPage";
 
-
-function App() {
-  return(
-    <>
-      <LandingPage />
-      <SpeedInsights/>;
-    </>
-  ) 
-
-}
+const App = () => (
+  <>
+    <LandingPage />
+    <SpeedInsights />
+  </>
+);
 
 export default App;

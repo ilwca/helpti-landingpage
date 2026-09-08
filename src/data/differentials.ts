@@ -1,6 +1,7 @@
 import { Users, Zap, MessageCircle, CheckCircle } from "lucide-react";
+import type { IconCardItem } from "@/types/content";
 
-export const differentials = [
+export const differentials: IconCardItem[] = [
   {
     icon: Users,
     title: "Atendimento Direto com Técnicos",

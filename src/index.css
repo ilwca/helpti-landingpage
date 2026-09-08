@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
 /* HelpTI Design System - Cores baseadas na paleta fornecida */
 
+/* Design tokens */
 @layer base {
   :root {
     /* Background colors */
@@ -110,6 +111,7 @@
   }
 }
 
+/* Base styles and typography */
 @layer base {
   * {
     @apply border-border;
@@ -129,6 +131,7 @@
   }
 }
 
+/* Utilities */
 @layer utilities {
   .gradient-primary {
     background: var(--gradient-primary);
@@ -147,7 +150,7 @@
   }
 }
 
-/* Custom animations */
+/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
