@@ -1,14 +1,18 @@
 import React from "react";
-import { MessageCircle, Phone, ArrowRight, Mail, Instagram } from "lucide-react";
+import { MessageCircle, Phone, Mail, Instagram, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CustomCursor, useSetCursorVariant } from "@/components/ui/custom-cursor";
 import MobileCarousel from "@/components/MobileCarousel";
 import { services } from "@/data/services";
 import { differentials } from "@/data/differentials";
 import { WHATSAPP_LINK } from "@/constants/contact";
 import logoHelpTI from "@/assets/logo-helpti.png";
 
+const HERO_IMAGE_SRC = "/images/Notebook_displaying_blue_screen_202609081703.jpeg";
 
 const LandingPage = () => {
+  const { cursorVariant, setCursorVariant, cursorText, setCursorText } = useSetCursorVariant();
+
   return (
 
     <div className="min-h-screen bg-background">
@@ -25,6 +29,11 @@ const LandingPage = () => {
             HelpTI
           </p>
           </div>
+          <nav className="hidden md:flex items-center gap-8">
+            <a href="#servicos" className="text-foreground/80 hover:text-primary transition-colors">Serviços</a>
+            <a href="#diferenciais" className="text-foreground/80 hover:text-primary transition-colors">Diferenciais</a>
+            <a href="#contato" className="text-foreground/80 hover:text-primary transition-colors">Contato</a>
+          </nav>
           <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
               <MessageCircle className="mr-2 h-4 w-4" />
@@ -35,43 +44,66 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <section className="relative pt-32 pb-20 px-4 bg-gradient-to-br from-primary/5 via-background to-accent/5 overflow-hidden">
+        <CustomCursor variant={cursorVariant} text={cursorText} className="hidden md:flex" />
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center animate-fade-in">
-            <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              Palmas - Tocantins
-            </span>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Problemas com TI?
-              <br />
-              <span className="text-primary">Suporte técnico de confiança, rápido e simples</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-              Fale diretamente com um técnico de TI qualificado. 
-              <strong className="text-foreground"> Atendimento rápido, humano e sem complicação.</strong>
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild 
-                size="lg" 
-                className="text-lg px-8 py-6 animate-pulse-glow"
-              >
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="mr-2 h-5 w-5" />
-                  Falar com um técnico agora
-                </a>
-              </Button>
-              <Button 
-                asChild 
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8 py-6"
-              >
-                <a href="#servicos">
-                  Ver nossos serviços
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Coluna de texto */}
+            <div className="text-center lg:text-left animate-fade-in">
+              <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+                Palmas - Tocantins
+              </span>
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 leading-tight">
+                Está deixando de <span className="text-primary">ganhar dinheiro</span> por problemas técnicos?
+              </h1>
+              {/* <p className="text-lg md:text-xl font-medium text-foreground/80 mb-6">
+                Atendimento especializado para{" "}
+                <span className="text-primary">empresas</span> e{" "}
+                <span className="text-primary">uso pessoal</span>
+              </p> */}
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 mb-10">
+                Fale diretamente com um técnico de TI qualificado.
+                <strong className="text-foreground"> Atendimento rápido, humano e sem complicação.</strong>
+              </p>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center lg:justify-start">
+                <Button
+                  asChild
+                  size="lg"
+                  className="text-lg px-8 py-6 animate-pulse-glow"
+                  onMouseEnter={() => setCursorVariant("sm")}
+                  onMouseLeave={() => setCursorVariant("default")}
+                >
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="mr-2 h-5 w-5" />
+                    Falar com um técnico agora
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            {/* Coluna de imagem */}
+            <div
+              className="relative aspect-square lg:aspect-[4/5] w-full max-w-md mx-auto lg:max-w-none rounded-2xl border border-border bg-card shadow-elevated overflow-hidden animate-fade-in"
+              style={{ animationDelay: "0.15s" }}
+              onMouseEnter={() => setCursorText("Suporte HelpTI")}
+              onMouseLeave={() => setCursorText("")}
+            >
+              {/* Espaço reservado para a imagem: public/images/Notebook_displaying_blue_screen_202609081703.jpeg */}
+              <img
+                src={HERO_IMAGE_SRC}
+                alt="Notebook exibindo tela azul de erro, representando um problema de TI"
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  e.currentTarget.nextElementSibling?.classList.remove("hidden");
+                }}
+              />
+              <div className="hidden absolute inset-0 flex-col items-center justify-center gap-3 bg-muted text-muted-foreground">
+                <ImageIcon className="h-10 w-10" />
+                <span className="text-sm font-medium px-6 text-center">
+                  Imagem: Notebook_displaying_blue_screen_202609081703.jpeg
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -116,7 +148,7 @@ const LandingPage = () => {
       </section>
 
       {/* Serviços */}
-      <section id="servicos" className="py-20 px-4 bg-background">
+      <section id="servicos" className="py-20 px-4 bg-background scroll-mt-24">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -148,7 +180,7 @@ const LandingPage = () => {
       </section>
 
       {/* Diferenciais */}
-      <section className="py-20 px-4 bg-primary text-primary-foreground">
+      <section id="diferenciais" className="py-20 px-4 bg-primary text-primary-foreground scroll-mt-24">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
@@ -202,7 +234,7 @@ const LandingPage = () => {
       </section>
 
       {/* Contato/Footer */}
-      <footer className="py-12 px-4 bg-foreground text-background">
+      <footer id="contato" className="py-12 px-4 bg-foreground text-background scroll-mt-24">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex items-center gap-4">
