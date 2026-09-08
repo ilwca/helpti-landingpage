@@ -1,5 +1,5 @@
-import React from "react";
-import { MessageCircle, Phone, Mail, Instagram, ImageIcon } from "lucide-react";
+import React, { useState } from "react";
+import { MessageCircle, Phone, Mail, Instagram, ImageIcon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CustomCursor, useSetCursorVariant } from "@/components/ui/custom-cursor";
 import MobileCarousel from "@/components/MobileCarousel";
@@ -12,40 +12,83 @@ const HERO_IMAGE_SRC = "/images/Notebook_displaying_blue_screen_202609081703.jpe
 
 const LandingPage = () => {
   const { cursorVariant, setCursorVariant, cursorText, setCursorText } = useSetCursorVariant();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { href: "#servicos", label: "Serviços" },
+    { href: "#diferenciais", label: "Diferenciais" },
+    { href: "#contato", label: "Contato" },
+  ];
 
   return (
 
     <div className="min-h-screen bg-background">
       {/* Header/Nav */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-
-          <img src={logoHelpTI} alt="HelpTI Logo" className="h-10 w-auto" />
-          <p 
-          className="text-4xl font-bold text-primary"
-          // style={{paddingLeft: "8rem"}}
-          >
-            HelpTI
-          </p>
+        <div className="container mx-auto px-4 py-3 md:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 md:gap-3 min-w-0">
+            <img src={logoHelpTI} alt="HelpTI Logo" className="h-8 md:h-10 w-auto shrink-0" />
+            <p className="text-2xl md:text-4xl font-bold text-primary truncate">
+              HelpTI
+            </p>
           </div>
+
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#servicos" className="text-foreground/80 hover:text-primary transition-colors">Serviços</a>
-            <a href="#diferenciais" className="text-foreground/80 hover:text-primary transition-colors">Diferenciais</a>
-            <a href="#contato" className="text-foreground/80 hover:text-primary transition-colors">Contato</a>
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-foreground/80 hover:text-primary transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
-          <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="mr-2 h-4 w-4" />
-              Falar com Técnico
-            </a>
-          </Button>
+
+          <div className="flex items-center gap-1 md:gap-3">
+            <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-3 md:px-4">
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="h-4 w-4 md:mr-2" />
+                <span className="hidden sm:inline">Falar com Técnico</span>
+              </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden shrink-0"
+              aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((open) => !open)}
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
+
+        {/* Mobile nav */}
+        {isMenuOpen && (
+          <nav className="md:hidden border-t border-border bg-background px-4 py-4 flex flex-col gap-4 animate-fade-in">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="text-foreground/80 hover:text-primary transition-colors text-lg"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        )}
       </header>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 bg-gradient-to-br from-primary/5 via-background to-accent/5 overflow-hidden">
-        <CustomCursor variant={cursorVariant} text={cursorText} className="hidden md:flex" />
+        <CustomCursor
+          variant={cursorVariant}
+          text={cursorText}
+          className="hidden lg:[@media(hover:hover)_and_(pointer:fine)]:flex"
+        />
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Coluna de texto */}
